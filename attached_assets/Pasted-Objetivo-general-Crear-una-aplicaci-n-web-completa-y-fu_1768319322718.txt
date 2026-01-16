@@ -1,0 +1,188 @@
+Objetivo general
+Crear una aplicación web completa y funcional para control de horario laboral semanal, utilizando Vue 3 (Composition API) en el frontend, Node.js + Express en el backend y PostgreSQL con Sequelize como ORM.
+La app debe permitir registrar horas trabajadas por día y calcular automáticamente el total de horas trabajadas por semana (de lunes a domingo) para su posterior cobro.
+
+🧱 Stack tecnológico obligatorio
+
+Frontend: Vue 3
+
+Backend: Node.js + Express
+
+Base de datos: PostgreSQL
+
+ORM: Sequelize
+
+Comunicación HTTP: Axios
+
+Variables de entorno: dotenv
+
+📂 Estructura del proyecto
+/frontend
+  ├─ src/
+  ├─ components/
+  └─ main.js
+/backend
+  ├─ models/
+  ├─ routes/
+  ├─ controllers/
+  ├─ config/
+  ├─ app.js
+  └─ server.js
+.env
+README.md
+
+🗄️ Base de datos (PostgreSQL + Sequelize)
+
+Modelo Sequelize: WorkLog
+
+id (INTEGER, PK, autoIncrement)
+
+date (DATE, not null)
+
+start_time (TIME, not null)
+
+end_time (TIME, not null)
+
+hours_worked (DECIMAL(5,2), calculado automáticamente)
+
+hourly_rate (DECIMAL(10,2), opcional)
+
+createdAt / updatedAt
+
+Reglas:
+
+hours_worked debe calcularse antes de guardar (beforeCreate / beforeUpdate).
+
+Validar que end_time sea mayor a start_time.
+
+🔧 Backend (Node.js + Express)
+
+Configuración:
+
+Conexión a PostgreSQL usando Sequelize
+
+Uso de migraciones y sequelize.sync()
+
+Manejo de errores centralizado
+
+Endpoints obligatorios:
+
+POST /api/work-logs
+
+Crea un registro diario
+
+Calcula horas trabajadas automáticamente
+
+GET /api/work-logs/week?date=YYYY-MM-DD
+
+Devuelve todos los registros de la semana correspondiente
+
+La semana empieza lunes y termina domingo
+
+GET /api/work-logs/week/summary?date=YYYY-MM-DD
+
+Devuelve:
+
+Horas trabajadas por día
+
+Total de horas semanales
+
+Total a cobrar (si hay valor por hora)
+
+PUT /api/work-logs/:id
+
+Edita un registro existente
+
+DELETE /api/work-logs/:id
+
+Elimina un registro
+
+Lógica de fechas (obligatoria):
+
+Calcular correctamente el lunes y domingo de la semana seleccionada
+
+Agrupar registros usando consultas Sequelize con BETWEEN
+
+🎨 Frontend (Vue 3)
+
+Componentes requeridos:
+
+WorkLogForm.vue
+
+Fecha
+
+Hora inicio
+
+Hora fin
+
+Valor por hora (opcional)
+
+WeeklySummary.vue
+
+Tabla lunes → domingo
+
+Horas por día
+
+Total semanal
+
+Total a cobrar
+
+Selector de semana (fecha)
+
+Requisitos técnicos:
+
+Axios para consumir la API
+
+Composition API (ref, computed, watch)
+
+Manejo de errores y mensajes al usuario
+
+UI clara, simple y responsive
+
+⏱️ Lógica de horas
+
+Formato 24 horas
+
+Cálculo con decimales (ej: 8.25)
+
+No permitir valores negativos
+
+Validar datos en frontend y backend
+
+💰 Cálculo de cobro
+total_semanal = SUM(hours_worked)
+total_a_cobrar = total_semanal × hourly_rate
+
+🔐 Validaciones
+
+Campos obligatorios
+
+Horas válidas
+
+Manejo correcto de errores HTTP
+
+Mensajes claros para el usuario
+
+📄 Extras deseables
+
+Seed de datos de prueba
+
+README con instrucciones para correr en Replit
+
+Comentarios explicativos en el código
+
+Código limpio y organizado
+
+✅ Resultado esperado
+
+App completamente funcional
+
+Persistencia real con PostgreSQL
+
+Backend con Sequelize bien estructurado
+
+Frontend Vue 3 consumiendo la API
+
+Cálculo correcto de horas semanales de lunes a domingo
+
+Lista para usar como sistema real de control de horas
